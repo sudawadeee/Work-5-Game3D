@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6holrim15rju"]
+
+[ext_resource type="Script" uid="uid://fqv15s2qpaut" path="res://art/player.gd" id="1_byatb"]
+[ext_resource type="PackedScene" uid="uid://xvlndfmc4qit" path="res://art/Main Monkey - VR.glb" id="2_h0ps5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_byatb"]
+radius = 0.341247
+height = 2.16738
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_byatb"]
+height = 1.54339
+radius = 0.463379
+
+[sub_resource type="Animation" id="Animation_byatb"]
+resource_name = "float"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Character:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.8, 1.4, 0.8), Vector3(1.3, 0.7, 1.3), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_h0ps5"]
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Character:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h0ps5"]
+_data = {
+&"RESET": SubResource("Animation_h0ps5"),
+&"float": SubResource("Animation_byatb")
+}
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+collision_mask = 6
+script = ExtResource("1_byatb")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+
+[node name="Character" parent="Pivot" instance=ExtResource("2_h0ps5")]
+transform = Transform3D(-0.142629, 0, -0.989776, 0, 1, 0, 0.989776, 0, -0.142629, 0, 0.775009, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-0.128778, 0, -0.991673, 0, 1, 0, 0.991673, 0, -0.128778, -0.0791916, 0.637786, 0)
+shape = SubResource("CapsuleShape3D_byatb")
+
+[node name="MobDetector" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.530296, 0.0404205)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MobDetector"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.122338, -0.0715204, -0.0545044)
+shape = SubResource("CylinderShape3D_byatb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_h0ps5")
+}
+autoplay = "float"
+
+[connection signal="body_entered" from="MobDetector" to="." method="_on_mob_detector_body_entered"]
