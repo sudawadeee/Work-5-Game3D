@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxahp8vg71qku"]
+
+[ext_resource type="Script" uid="uid://bmwqfo30tjmrk" path="res://banana.gd" id="1_ry62i"]
+[ext_resource type="PackedScene" uid="uid://bmp5w7kas48jk" path="res://art/Cool Bannana Guy.glb" id="2_bikxd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vp61k"]
+size = Vector3(2.20261, 1.3386, 3.82282)
+
+[node name="Banana" type="CharacterBody3D" groups=["banana"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_ry62i")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.734344, 0)
+
+[node name="Charater" parent="Pivot" instance=ExtResource("2_bikxd")]
+transform = Transform3D(1.91069e-15, 4.37114e-08, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, -4.37114e-08, 0, 0, 3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." groups=["banana"]]
+transform = Transform3D(0.999999, 0.00171042, 0, -0.00171042, 0.999999, 0, 0, 0, 1, -0.00679829, -0.568347, -0.481)
+shape = SubResource("BoxShape3D_vp61k")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.012, -0.770004, 0.178)
+aabb = AABB(-1.12298, -0.483469, -2.51047, 2.244, 1.631, 3.66376)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]

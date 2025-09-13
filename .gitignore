@@ -1,0 +1,28 @@
+# Godot-specific ignores
+.import/
+.export/
+
+# Exported game binaries
+*.exe
+*.app
+*.apk
+*.aab
+*.pck
+*.zip
+*.tar.gz
+*.x86_64
+*.wasm
+*.html
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# VS Code settings
+.vscode/
+
+# Backup files
+*.tmp
+*.swp
+*.bak
